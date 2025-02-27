@@ -2,28 +2,44 @@
 
 namespace Apps\Fintech\Packages\Mf\Categories;
 
+use Apps\Fintech\Packages\Mf\Categories\Model\AppsFintechMfCategories;
 use System\Base\BasePackage;
 
 class MfCategories extends BasePackage
 {
-    //protected $modelToUse = ::class;
+    protected $modelToUse = AppsFintechMfCategories::class;
 
     protected $packageName = 'mfcategories';
 
     public $mfcategories;
 
-    public function getMfCategoriesById($id)
+    public function getMfCategoryByName($name)
     {
-        $mfcategories = $this->getById($id);
-
-        if ($mfcategories) {
-            //
-            $this->addResponse('Success');
-
-            return;
+        if ($this->config->databasetype === 'db') {
+            $conditions =
+                [
+                    'conditions'    => 'name = :name:',
+                    'bind'          =>
+                        [
+                            'name'  => $name
+                        ]
+                ];
+        } else {
+            $conditions =
+                [
+                    'conditions'    => [
+                        ['name', '=', $name]
+                    ]
+                ];
         }
 
-        $this->addResponse('Error', 1);
+        $mfcategory = $this->getByParams($conditions);
+
+        if ($mfcategory && count($mfcategory) > 0) {
+            return $mfcategory[0];
+        }
+
+        return false;
     }
 
     public function addMfCategories($data)
