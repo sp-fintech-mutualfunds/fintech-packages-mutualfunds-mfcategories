@@ -30,76 +30,12 @@ class MfCategories
                     ]
                 ),
                 new Column(
-                    'report_date',
+                    'parent_id',
                     [
-                        'type'          => Column::TYPE_VARCHAR,
-                        'size'          => 15,
-                        'notNull'       => true,
-                    ]
-                ),
-                new Column(
-                    'week_1',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
+                        'type'          => Column::TYPE_SMALLINTEGER,
                         'notNull'       => false,
                     ]
-                ),
-                new Column(
-                    'month_1',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'month_3',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'month_6',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'year_1',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'year_3',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'year_5',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'year_10',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
-                new Column(
-                    'inception',
-                    [
-                        'type'          => Column::TYPE_FLOAT,
-                        'notNull'       => false,
-                    ]
-                ),
+                )
             ],
             'indexes' => [
                 new Index(
