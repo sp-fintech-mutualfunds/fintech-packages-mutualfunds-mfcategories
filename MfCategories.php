@@ -24,16 +24,15 @@ class MfCategories extends BasePackage
                             'name'  => $name
                         ]
                 ];
-        } else {
-            $conditions =
-                [
-                    'conditions'    => [
-                        ['name', '=', $name]
-                    ]
-                ];
-        }
 
-        $mfcategory = $this->getByParams($conditions);
+            $mfcategory = $this->getByParams($conditions);
+        } else {
+            $this->ffStore = $this->ff->store($this->ffStoreToUse);
+
+            $this->ffStore->setReadIndex(false);
+
+            $mfcategory = $this->ffStore->findBy(['name', '=', $name]);
+        }
 
         if ($mfcategory && count($mfcategory) > 0) {
             return $mfcategory[0];
@@ -44,7 +43,11 @@ class MfCategories extends BasePackage
 
     public function addMfCategories($data)
     {
-        //
+        $this->ffStore = $this->ff->store($this->ffStoreToUse);
+
+        $this->ffStore->setReadIndex(false);
+
+        return $this->add($data);
     }
 
     public function updateMfCategories($data)
