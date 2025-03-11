@@ -6,7 +6,7 @@
 	"app_type" : "fintech",
 	"category" : "mutualfunds",
 	"version" : "0.2.0",
-	"repo" : "https://github.com/sp-fintech/fintech-packages-mutualfunds-mfcategories",
+	"repo" : "https://github.com/sp-fintech-mutualfunds/fintech-packages-mutualfunds-mfcategories",
 	"class" : "Apps\\Fintech\\Packages\\Mf\\Categories\\MfCategories",
 	"dependencies" : 
 	{
