@@ -52,16 +52,11 @@ class MfCategories extends BasePackage
 
     public function updateMfCategories($data)
     {
-        $mfcategories = $this->getById($id);
+        $this->ffStore = $this->ff->store($this->ffStoreToUse);
 
-        if ($mfcategories) {
-            //
-            $this->addResponse('Success');
+        $this->ffStore->setReadIndex(false);
 
-            return;
-        }
-
-        $this->addResponse('Error', 1);
+        return $this->update($data);
     }
 
     public function removeMfCategories($data)
@@ -76,5 +71,36 @@ class MfCategories extends BasePackage
         }
 
         $this->addResponse('Error', 1);
+    }
+
+    public function getMfCategoryParent($childCategoryId)
+    {
+        $childCategory = $this->getById($childCategoryId);
+
+        if ($childCategory && isset($childCategory['parent_id'])) {
+            return $this->getById($childCategory['parent_id']);
+        }
+
+        return false;
+    }
+
+    public function calculateCategoriesVariance($mainCategory, $withCategory)
+    {
+        if ((float) $mainCategory <= 0 || (float) $withCategory <= 0) {
+            $this->addResponse('Numbers cannot be less than or equal to 0', 1);
+
+            return false;
+        }
+
+        //We switch the lower values and assign it to from.
+        if ($mainCategory > $withCategory) {
+            $from = (float) $withCategory;
+            $with = (float) $mainCategory;
+        } else if ($withCategory > $mainCategory) {
+            $from = (float) $mainCategory;
+            $with = (float) $withCategory;
+        }
+
+        $this->addResponse('Calculated', 0, ['percentage' => numberFormatPrecision((($with - $from) / $from) * 100, 2)]);
     }
 }
