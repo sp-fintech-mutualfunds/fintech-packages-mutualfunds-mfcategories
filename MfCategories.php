@@ -84,7 +84,7 @@ class MfCategories extends BasePackage
         return false;
     }
 
-    public function calculateCategoriesVariance($mainCategory, $withCategory)
+    public function calculateCategoriesPercentDiff($mainCategory, $withCategory)
     {
         if ((float) $mainCategory <= 0 || (float) $withCategory <= 0) {
             $this->addResponse('Numbers cannot be less than or equal to 0', 1);
@@ -99,8 +99,16 @@ class MfCategories extends BasePackage
         } else if ($withCategory > $mainCategory) {
             $from = (float) $mainCategory;
             $with = (float) $withCategory;
+        } else if ($withCategory == $mainCategory) {
+            $this->addResponse('Calculated', 0, ['diff' => 0 . '%']);
+
+            return 0;
         }
 
-        $this->addResponse('Calculated', 0, ['percentage' => numberFormatPrecision((($with - $from) / $from) * 100, 2)]);
+        $diff = numberFormatPrecision((($with - $from) / $from) * 100, 2);
+
+        $this->addResponse('Calculated', 0, ['diff' => $diff . '%']);
+
+        return $diff;
     }
 }
