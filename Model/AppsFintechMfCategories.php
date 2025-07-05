@@ -11,4 +11,6 @@ class AppsFintechMfCategories extends BaseModel
     public $name;
 
     public $parent_id;
+
+    public $turn_around_time;
 }

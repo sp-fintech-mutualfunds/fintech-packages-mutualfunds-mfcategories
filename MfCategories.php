@@ -56,21 +56,16 @@ class MfCategories extends BasePackage
 
         $this->ffStore->setReadIndex(false);
 
+        if ($data['turn_around_time'] === '') {
+            $data['turn_around_time'] = null;
+        }
+
         return $this->update($data);
     }
 
     public function removeMfCategories($data)
     {
-        $mfcategories = $this->getById($id);
-
-        if ($mfcategories) {
-            //
-            $this->addResponse('Success');
-
-            return;
-        }
-
-        $this->addResponse('Error', 1);
+        //
     }
 
     public function getMfCategoryParent($childCategoryId)
@@ -92,23 +87,24 @@ class MfCategories extends BasePackage
             return false;
         }
 
-        //We switch the lower values and assign it to from.
-        if ($mainCategory > $withCategory) {
-            $from = (float) $withCategory;
-            $with = (float) $mainCategory;
-        } else if ($withCategory > $mainCategory) {
-            $from = (float) $mainCategory;
-            $with = (float) $withCategory;
-        } else if ($withCategory == $mainCategory) {
-            $this->addResponse('Calculated', 0, ['diff' => 0 . '%']);
+        $total = $mainCategory + $withCategory;
 
-            return 0;
+        $mainCategoryPercent = ($mainCategory / $total) * 100;
+        $withCategoryPercent = ($withCategory / $total) * 100;
+
+        if ($mainCategoryPercent >= $withCategoryPercent) {
+            $diff = $mainCategoryPercent - $withCategoryPercent;
+        } else {
+            $diff = $withCategoryPercent - $mainCategoryPercent;
         }
-
-        $diff = numberFormatPrecision((($with - $from) / $from) * 100, 2);
 
         $this->addResponse('Calculated', 0, ['diff' => $diff . '%']);
 
         return $diff;
+    }
+
+    public function getCategoryTurnAroundTime($categoryId)
+    {
+        //
     }
 }
